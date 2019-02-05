@@ -1,0 +1,25 @@
+class Lab3{
+public static int main(Strings []) throws IOExceptions{
+ try( FileOutputStream output = new FileOutputStream("text.dat");){
+ for (int i = 0; i < 10; i++)
+ output.write(i);
+ }
+ try( FileInputStream input = new FileInputStream("text.dat");){//this part should show the contents of the file
+ int value = 0;
+ while (value = input.read())
+ {
+ System.out.print(value + " ");
+ }
+ }
+ FileWriter fwriter = new FileWriter("text.dat",true);
+ PrintWriter print = new PrintWriter(fwriter);
+}
+};
+//That should be part 1 of the lab but best test it
+class Lab3 implements java.io.Serializable{//this might make the variable to recorded
+static int variable = 0;
+try( FileOutputStream output = new FileOutputStream("text.dat");){
+ System.out.println ("Hello World");
+ variable++;
+ }
+ }
