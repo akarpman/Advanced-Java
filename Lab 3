@@ -1,5 +1,10 @@
 class Lab3{
 public static int main(Strings []) throws IOExceptions{
+
+File file = new File ("text.dat");//this part is to catch the program if it is already created via another mean
+if (file.exists("text.dat")
+System.out.print("This file already exists");
+
  try( FileOutputStream output = new FileOutputStream("text.dat");){
  for (int i = 0; i < 10; i++)
  output.write(i);
@@ -16,10 +21,11 @@ public static int main(Strings []) throws IOExceptions{
 }
 };
 //That should be part 1 of the lab but best test it
-class Lab3 implements java.io.Serializable{//this might make the variable to recorded
+class Lab3 implements java.io.Serializable{//this might make the variable to saved across uses
 static int variable = 0;
 try( FileOutputStream output = new FileOutputStream("text.dat");){
  System.out.println ("Hello World");
  variable++;
  }
  }
+ //Maybe move the serializable class to the outside so only the counter is saved
