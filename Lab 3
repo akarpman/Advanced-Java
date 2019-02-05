@@ -34,47 +34,51 @@ public static void main(String[] args) throws IOException{
  * output.close(); }
  */
 
-package lab03;
+//Andrew Karpman
+//Lab 3
+//This code creates a file and tracks how many times that file has been accessed
+package lab3;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class Lab0202 implements java.io.Serializable{
-	public static int accessValue = 0;
+public class Lab3 {
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
+		int numbers = 0;
+		String strings = "Hello World";
+		File file = new File("lab02-02.dat");
+		
+		if (file.exists()) {
+//Create an input stream for file array.dat
+			try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));) {
 
-public static void main(String[] args) throws IOException{
-	File file = new File ("lab02-01.dat");//this part is to catch the program if it is already created via another mean
-	
-	if (file.exists()) {
-		FileInputStream input = new FileInputStream("lab02-01.dat");
-		input.read();
-		accessValue++;
-		System.out.println("The file has been accessed " + accessValue + "times.");
-		input.close();
-	}
-	// Create a file
-	PrintWriter output = new PrintWriter(file);{
-	 for (int i = 0; i < 10; i++)
-	 output.write("Hello World");
-	 }
-	accessValue++;
-	System.out.println("The file has been accessed " + accessValue + " times.");
-	output.close();
-	 FileWriter fwriter = new FileWriter("lab02-01.dat",true);
-	 PrintWriter print = new PrintWriter(fwriter);
+				int newNumbers = (int) (input.readObject());
+				String newStrings = (String) (input.readObject());
+				numbers = newNumbers;
+				
+				System.out.println("This file has been accessed " + newNumbers + " times since creation.");
+				System.out.print(newStrings + " ");
+			}
+			try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file, false));) {
+				// Write arrays to the object output stream
+				 numbers++;
+				output.writeObject(numbers);
+				output.writeObject(strings);
+			}
+		}
+//if the file does not exist
+		else {
+			try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file, false));) {
+				// Write arrays to the object output stream
+				output.writeObject(numbers);
+				output.writeObject(strings);
+				System.out.println("File " + file + " has been created");
+			}
+		}
 	}
 }
 
-
-/*
- * private void doFileStuff() throws IOException { File file = new
- * File("scores.txt"); if (file.exists()) {
- * System.out.println("File already exists."); System.exit(1); } // Create a
- * file PrintWriter output = new PrintWriter(file); // Write formatted output to
- * the file output.print("John T Smith"); output.println(90);
- * output.print("Erik K Jones"); output.println(85); // Close the file
- * output.close(); }
- */
