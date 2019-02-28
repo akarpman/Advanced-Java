@@ -1,0 +1,32 @@
+package hw4;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+//import java.io.*;
+//import java.util.*;
+
+public class LabCollections {
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("Lincoln.txt");
+		Scanner input = new Scanner(file);
+		List<String> vec = new ArrayList<String>();
+		while (input.hasNext()) {
+			String line = input.nextLine();
+			StringTokenizer token = new StringTokenizer(line);
+			while(token.hasMoreTokens())
+			vec.add(token.nextToken());
+		}
+		
+		Collections.sort(vec);
+		for(int i = 0; i <vec.size();i++) {
+			System.out.println(vec.get(i) + " ");
+		}
+	}
+
+}
