@@ -1,25 +1,22 @@
 package collectionHW;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
 
 public class Driver {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//Point p = new Point(1,2);
-		ArrayList <Point> Array= new ArrayList<Point>();
-		Random rand = new Random();
-		
-		//CompareY y;
+		Point points [] = new Point[100];
 		for(int i  = 0; i < 100; i++) {
-			Point p;
-		p.x = rand.nextInt(100);
-		p.y = rand.nextInt(100);
-		Array.add(p);
+			points[i] = new Point((int)(Math.random()*100),(int)(Math.random()*100));
 		}
-		//Array.sort(y.compareTo(Array._x, _y));
-
+		System.out.println("----------------------------------------------------------------------------------------------------" + "\nPart 1");
+		Arrays.sort(points);
+		for(int i  = 0; i < 100; i++)
+			System.out.println(points[i].x + " " + points[i].y);
+		System.out.println("----------------------------------------------------------------------------------------------------" + "\nPart 2");
+		Arrays.sort(points,new CompareY());
+		for(int i  = 0; i < 100; i++)
+			System.out.println(points[i].x + " " + points[i].y);
 	}
 
 }
