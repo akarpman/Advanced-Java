@@ -1,19 +1,36 @@
 package collectionHW;
 
-import java.util.Comparator;
+public class Point implements Comparable<Point> {
 
-public abstract class Point implements Comparable {
 	int x;
 	int y;
-	Point(int _x, int _y){
-		x= _x;
-		y = _y;
-	}
-	public boolean compareTo(int _x, int _y) {
-		if (x == _x)
-			if(y == _y)
-				return true;
-		return false;
-	}
 
+	Point() {
+		x = 0;
+		y = 0;
+	};
+
+	Point(int _x, int _y) {
+		x = _x;
+		y = _y;
+	};
+	@Override
+	public int compareTo(Point o) {
+
+		int _x = o.x;
+		int _y = o.y;
+		if (x == _x) {
+			if (y == _y) {
+				return 0;
+			}
+		}
+		else if (x < _x) 
+				return -1;	
+		else 
+			return 1;
+		if (y < _y) 
+			return -1;
+		else
+			return 1;
+	}
 };
