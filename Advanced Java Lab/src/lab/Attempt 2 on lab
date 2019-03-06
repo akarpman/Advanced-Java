@@ -1,16 +1,12 @@
 //Andrew Karpman
 //MultiThreading lab
 //runs a counting thread that is faster once the lab is complete
-package lab;
-
+package lab2;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.swing.*;
 
-public class UnresponsiveUIThread extends JFrame implements Runnable {
+public class UnresponsiveUIThread extends JFrame {
 	private static final long serialVersionUID = 1L;
 // Start or stop counter flag
 	private boolean stop = false;
@@ -18,20 +14,23 @@ public class UnresponsiveUIThread extends JFrame implements Runnable {
 	private int count = 1;
 
 	public UnresponsiveUIThread() {
-		// Thread.setPriority(3);
+		Task t = new Task();//creates an object to run the code
 		Container cp = this.getContentPane();
 		cp.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		cp.add(new JLabel("Counter"));
-		tfCount = new JTextField(count + " ", 10);
-		tfCount.setEditable(false);
-		cp.add(tfCount);
+		setTfCount(new JTextField(getCount() + " ", 10));
+		getTfCount().setEditable(false);
+		cp.add(getTfCount());
 		JButton btnStart = new JButton("Start Counting");
 		cp.add(btnStart);
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				stop = false;
-				run();
+				setStop(false);
+				
+				
+				//got to move this work to a helper thread (maybe another deamon thread
+				t.run();
 			}
 		});
 		JButton btnStop = new JButton("Stop Counting");
@@ -40,7 +39,7 @@ public class UnresponsiveUIThread extends JFrame implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 // Signal that we need to stop
-				stop = true;
+				setStop(true);
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,40 +47,67 @@ public class UnresponsiveUIThread extends JFrame implements Runnable {
 		setSize(300, 120);
 		setVisible(true);
 	}
+	
 
-	public static void main(String[] args) throws Exception {
-		// ExecutorService executor = Executors.newFixedThreadPool(3);
-		 //executor.execute(new UnresponsiveUIThread());//runs code then stops
-		 //executor.notify();
-		// executor.shutdown();//this might be causing the
+	public static void main(String[] args) {
 // Run GUI codes in Event-Dispatching thread for thread safety
-		UnresponsiveUIThread thread = new UnresponsiveUIThread();
-		thread.run();
-		// thread.wait(10);
-		// run();
+		
+		Task t = new Task();
+		Thread thread = new Thread(t);
+		thread.setPriority(1);
+		thread.start();
+		//t.run();
 	}
+
+
+	public boolean isStop() {
+		return stop;
+	}
+
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+
+
+	public JTextField getTfCount() {
+		return tfCount;
+	}
+
+
+	public void setTfCount(JTextField tfCount) {
+		this.tfCount = tfCount;
+	}
+
+
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+}
+
+package lab2;
+
+public class Task implements Runnable {
 
 	@Override
 	public void run() {
+		UnresponsiveUIThread tr = new UnresponsiveUIThread();
+		// TODO Auto-generated method stub
+		for (int i = 0; i < 100000; i++) {// increased to make the counter take longer
+			// Check if STOP button has been pushed
+			// which changes the stop flag state to true
+			
 
-		for (int i = 0; i < 10000000; i++) {
-			{// modified so it will only stop when the user clicks stop
-				// only issue is the code wont close
-				// Check if STOP button has been pushed
-				// which changes the stop flag state to true
-				if (stop) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//break;
-				}
-				tfCount.setText(count + " ");
-				++count;
-			}
-
+			if (tr.isStop())
+				break;
+			tr.getTfCount().setText(tr.getCount() + " ");
+			tr.setCount(tr.getCount() + 1);
 		}
 	}
+
 }
