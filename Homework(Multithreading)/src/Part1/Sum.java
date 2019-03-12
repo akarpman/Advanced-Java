@@ -13,7 +13,7 @@ public class Sum implements Runnable{
 	@Override
 	public void run() {
 		sum++;
-		
+		System.out.println(sum + " ");
 	}
 
 }
